@@ -12,7 +12,7 @@ export default function LoginForm() {
 
   return (
     <>
-      {loginFailed && <h2>Gebruikersnaam of wachtwoord loginFailed</h2>}
+      {loginFailed && <h2>Gebruikersnaam of wachtwoord login</h2>}
       <form onSubmit={sendLogIn}>
         <label htmlFor="gebruikersnaam">Gebruikersnaam</label>
         <input type="text" id="gebruikersnaam" name="gebruikersnaam" required />
