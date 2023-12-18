@@ -1,61 +1,87 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
-
-export const AuthContext = createContext(null);
-export const useAuth = () => useContext(AuthContext);
+import React from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
 
 type AuthContextType = {
-  aangemeld: boolean;
-  aanmelden: (form: FormData) => void;
-  afmelden: () => void;
-  fout: boolean;
+  loggedIn: boolean;
+  logIn: (form: FormData) => void;
+  logOut: () => void;
+  redirectOnLogin: boolean;
+  setRedirectOnLogin: (b: boolean) => void;
+  loginFailed: boolean;
 };
 
-export const InlogContext = createContext<AuthContextType>({
-  aangemeld: false,
-  aanmelden: () => {},
-  afmelden: () => {},
-  fout: false,
+// Aanmaken van de context
+export const AuthContext = createContext<AuthContextType>({
+  loggedIn: false,
+  logIn: () => {},
+  logOut: () => {},
+  redirectOnLogin: false,
+  setRedirectOnLogin: () => {},
+  loginFailed: false,
 });
 
-export function GebruikGebruiker() {
-  return useContext(InlogContext);
+// Hook voor het gebruik van de context
+export function useAuth() {
+  return useContext(AuthContext);
 }
-type InloggenProps = {
+
+// Props voor de authenticatie provider
+type AuthProviderProps = {
   children: ReactNode;
 };
-export function Inloggen({ children }: InloggenProps) {
-  const [aangemeld, setAangemeld] = useState(false);
-  const [fout, setFout] = useState(false);
 
-  function aanmelden(form: FormData) {
-    const loginGegevens: { [key: string]: FormDataEntryValue } = {};
+// Authenticatie (regelen van de state mangement)
+export function AuthProvider({ children }: AuthProviderProps) {
+  const [loggedIn, setLoggedIn] = useState(() => {
+    const loggedInValue = localStorage.getItem("isLoggedIn");
+    return loggedInValue ? JSON.parse(loggedInValue) : false;
+  });
+  const [loginFailed, setloginFailed] = useState(false);
+  const [redirectOnLogin, setRedirectOnLogin] = useState(false);
+
+  // Inloggen
+  function logIn(form: FormData) {
+    const loginData: { [key: string]: FormDataEntryValue } = {};
 
     form.forEach((value: FormDataEntryValue, key: string) => {
       if (typeof value === "string") {
-        loginGegevens[key] = value;
+        loginData[key] = value;
       }
     });
+    // Login hardcoded, ivm geen backend
     if (
-      loginGegevens.gebruikersnaam == "uncinc" &&
-      loginGegevens.wachtwoord == "letmein"
+      loginData.gebruikersnaam === "uncinc" &&
+      loginData.wachtwoord === "letmein"
     ) {
-      setAangemeld(true);
-      setFout(false);
-      console.log("Aangemeld");
+      setLoggedIn(true);
+      setloginFailed(false);
+      localStorage.setItem("isLoggedIn", "true");
     } else {
-      setAangemeld(false);
-      setFout(true);
-      console.log("Wachtwoord fout");
+      setLoggedIn(false);
+      setloginFailed(true);
+      localStorage.setItem("isLoggedIn", "false");
     }
   }
 
-  function afmelden() {
-    setAangemeld(false);
+  // Functie voor het uitloggen
+  function logOut() {
+    setLoggedIn(false);
+    localStorage.removeItem("isLoggedIn");
   }
 
+  // Waardes beschikbaar maken
   return (
-    <InlogContext.Provider value={{ aangemeld, aanmelden, afmelden, fout }}>
+    <AuthContext.Provider
+      value={{
+        loggedIn,
+        logIn,
+        logOut,
+        redirectOnLogin,
+        setRedirectOnLogin,
+        loginFailed,
+      }}
+    >
       {children}
-    </InlogContext.Provider>
+    </AuthContext.Provider>
   );
 }
