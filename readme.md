@@ -1,8 +1,9 @@
 <b>Plan van aanpak</b><br>
 <span>Eigenschappen</span>
+
 <ul>
     <li>Ik ga gebruik maken van de laatste versie van Reactjs (18.2.0).</li>
-    <li>Ik kies ervoor om gebruik te maken van Typescript. Om ervoor te zorgen dat de code minder foutgevoelig is.</li>
+    <li>Ik kies ervoor om gebruik te maken van Typescript. Om ervoor te zorgen dat de code minder loginFailedgevoelig is.</li>
     <li>Ik ga gebruik maken van 'Create React App'</li>
 </ul>
 <span>Plan project</span>
@@ -15,3 +16,8 @@
 </ul>
 
 <span>Gedachtes tussentijds</span>
+
+<ul>
+    <li>Iets wat ik even moest uitzoeken was hoe ik een linkje achter de login kon stoppen. Achteraf bleek het best goed te doen. Helemaal met een harde-coded wachtwoord.</li>
+    <li>Dit was de eerste keer dat ik zelf een test heb geschreven voor een React web-app, ik vondt dit wel erg leuk om te doen.</li>
+</ul>
