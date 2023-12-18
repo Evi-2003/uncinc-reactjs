@@ -1,19 +1,19 @@
-import React, { FormEvent } from "react";
-import { InlogContext } from "../auth/auth";
+import React, { FormEvent, ReactNode, useContext } from "react";
+import { AuthContext } from "../auth/auth";
 
 export default function LoginForm() {
-  const { aanmelden, fout } = React.useContext(InlogContext);
-
-  const inloggen = (e: FormEvent<HTMLFormElement>) => {
+  const { logIn, loginFailed } = useContext(AuthContext);
+  // Formulier meesturen naar de logIn functie
+  const sendLogIn = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const loginData = new FormData(e.currentTarget);
-    aanmelden(loginData);
+    logIn(loginData);
   };
 
   return (
     <>
-      {fout && <h2>Gebruikersnaam of wachtwoord fout</h2>}
-      <form onSubmit={inloggen}>
+      {loginFailed && <h2>Gebruikersnaam of wachtwoord loginFailed</h2>}
+      <form onSubmit={sendLogIn}>
         <label htmlFor="gebruikersnaam">Gebruikersnaam</label>
         <input type="text" id="gebruikersnaam" name="gebruikersnaam" required />
 
