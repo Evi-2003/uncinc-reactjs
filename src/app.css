@@ -10,7 +10,9 @@ body {
   align-items: center;
   height: 100vh;
 }
-
+main {
+  text-align: center;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
@@ -58,6 +60,7 @@ button {
   border-radius: 0.5em;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  place-self: center;
 }
 
 button:hover {
@@ -82,9 +85,8 @@ header nav a {
 }
 
 h2 {
-  background-color: #DA394B;
+  background-color: #b53a31;
   padding: 1rem 2rem;
   color: white;
   font-size: 1rem;
-  text-align: center;
 }
